@@ -6,10 +6,10 @@ management using akka-http as backend and javascript as frontend in the browser.
   
 ## Internals
 The protocol is managed by three entities: The websocket manager, the 
-signalisation protocol that routes messages and the user actor that send
+signalisation protocol that routes messages and the user actor that sends
 and receives messages.
 
-When a client request a websocket to the backend, an actor is created to
+When a client requests a websocket to the backend, an actor is created to
 handle that connection, and the reference to the actor is stored in a Map 
 such as (Actor ID -> ActorReference). This actor receives messages from the
 signalisation protocol and forwards them to the frontend client.
@@ -28,15 +28,24 @@ If the user is still connected, the backend will deliver the message to the clie
 This webRTC demo provides one endpoint:
 
 `ws://localhost:8080/get` that can be called using the JSON library in 
-most of modern Javascript engines present in the broswers:
+most of modern Javascript engines present in current browsers:
 
 ## Usage
-To run the project, just open the terminal and run (sbt is required to compile):
+To run the server, just open the terminal and run (sbt is required to compile):
 
 ```bash
 $ cd webRTC
 $ sbt run
 ```
+
+To try the frontend, just open the index.html like it is shown next:
+
+[[https://github.com/mcornejo/webRTC/tree/master/img/1.png|alt=Server]]
+[[https://github.com/mcornejo/webRTC/tree/master/img/2.png|alt=Client Started]]
+[[https://github.com/mcornejo/webRTC/tree/master/img/3.png|alt=First Message]]
+[[https://github.com/mcornejo/webRTC/tree/master/img/4.png|alt=Second Message]]
+[[https://github.com/mcornejo/webRTC/tree/master/img/5.png|alt=Third Message]]
+ 
 
 ## Test
 akka (www.akka.io) was designed as highly distributed and performant platform. With this in mind,
@@ -57,4 +66,4 @@ Total received       957.03kB
 ```
 
 ## Documentation
-Classes and code contains its own comments explaining how they work.
+Classes and code contain its own comments explaining how they work.
