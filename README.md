@@ -40,6 +40,7 @@ $ sbt run
 
 To try the frontend, just open the index.html like it is shown next:
 
+
 [[https://github.com/mcornejo/webRTC/tree/master/img/1.png|alt=Server]]
 [[https://github.com/mcornejo/webRTC/tree/master/img/2.png|alt=Client Started]]
 [[https://github.com/mcornejo/webRTC/tree/master/img/3.png|alt=First Message]]
