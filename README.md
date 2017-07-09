@@ -39,14 +39,13 @@ $ sbt run
 ```
 
 To try the frontend, just open the index.html like it is shown next:
-
-
-[[https://github.com/mcornejo/webRTC/tree/master/img/1.png|alt=Server]]
-[[https://github.com/mcornejo/webRTC/tree/master/img/2.png|alt=Client Started]]
-[[https://github.com/mcornejo/webRTC/tree/master/img/3.png|alt=First Message]]
-[[https://github.com/mcornejo/webRTC/tree/master/img/4.png|alt=Second Message]]
-[[https://github.com/mcornejo/webRTC/tree/master/img/5.png|alt=Third Message]]
  
+![server](img/1.png "Server")
+![clent](img/2.png "Client Started")
+![client](img/3.png "First Message")
+![client](img/4.png "Second Message")
+![client](img/5.png "Third Message")
+
 
 ## Test
 akka (www.akka.io) was designed as highly distributed and performant platform. With this in mind,
