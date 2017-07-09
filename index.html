@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <script src="https://code.jquery.com/jquery-2.2.3.min.js"
+                integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo="
+                crossorigin="anonymous"></script>
+                <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        <title>webRTC</title>
+    </head>
+    <body>
+        <div class="container-fluid">
+        <div class="page-header">
+            <h1>webRTC <small>An example of using websockets and akka</small></h1>
+        </div>
+
+            <div class="row">
+                <div class="col-xs-3">
+                    <div id="listusers" class="well">
+                        <b>Users connected:</b></p>
+                        <ul id="list-users"></ul>
+                    </div>
+                    <hr>
+                    <div>
+                        <h3>
+                            Status:
+                            <span class="label label-primary" id="status"></span>
+                        </h3>
+                        <h3>
+                            Current ID:
+                            <span class="label label-default" id="userid"></span>
+                        </h3>
+                    </div>
+                </div>
+                <div class="col-xs-9">
+                    <div class="form-group">
+                        <label for="user">user ID</label>
+                        <input type="text" class="form-control" id="user" name="user" placeholder="UserID">
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <input type="text" class="form-control" id="message" name="message" placeholder="Message">
+                    </div>
+                    <button class="btn btn-default" id="send">Send</button>
+                    </p>
+                    <table class="table table-striped" id="results">
+                        <tr>
+                        <th>From</th>
+                        <th>Date</th> 
+                        <th>Message</th>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
+        <script language="javascript">
+            var $status = $("#status"),
+                $user = $("#user"),
+                $send = $("#send"),
+                $message = $("#message"),
+                $listusers = $("#list-users"),
+                connection = new WebSocket('ws://localhost:8080/get')
+            $send.prop("disabled",true)
+            connection.onopen = function () {
+                $send.prop("disabled",false)
+                $status.html("Connected")
+                $send.on('click', function() {
+                    var jsonObj = {};
+                    var msgObj = {};
+
+                    jsonObj.id = ($user.val());
+                    
+                    msgObj.message = $message.val();
+                    msgObj.from = $("#userid").text();
+
+                    jsonObj.message = JSON.stringify(msgObj);
+                    
+                    $message.val("");
+                    connection.send(JSON.stringify(jsonObj));
+                })
+            }
+            connection.onclose = function (event) {alert("Connection closed")};
+            connection.onerror = function (error) { console.log('WebSocket Error ', error) }
+            connection.onmessage = function (event) {
+                console.log(event.data);
+                var parsed = JSON.parse(event.data);
+                console.log(parsed);
+                if (parsed.users != null) {
+                    $listusers.html($(""))
+                    for(k in parsed.users) {
+                        $listusers.prepend($("<li>" + parsed.users[k] + "</li>"))
+                    }
+                } else if(parsed.id != null) {
+                    $("#userid").html(parsed.id);
+                } else {
+                    var from = parsed.from;
+                    var currentdate = new Date(); 
+                    var datetime = currentdate.getDate() + "/"
+                    + (currentdate.getMonth()+1)  + "/" 
+                    + currentdate.getFullYear() + " @ "  
+                    + currentdate.getHours() + ":"  
+                    + currentdate.getMinutes() + ":" 
+                    + currentdate.getSeconds();
+                    var message_received = parsed.message;
+
+                    $('#results tr:last').after("<tr><td>"+from+"</td><td>"+datetime+"</td><td>"+message_received+"</td></tr>");
+                    //$messages.prepend($("<li>" + event.data + "</li>"))
+                }                
+            }
+        </script>
+    </body>
+</html>
