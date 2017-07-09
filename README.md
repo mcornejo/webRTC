@@ -40,11 +40,11 @@ $ sbt run
 
 To try the frontend, just open the index.html like it is shown next:
  
-![server](img/1.png "Server")
-![clent](img/2.png "Client Started")
-![client](img/3.png "First Message")
-![client](img/4.png "Second Message")
-![client](img/5.png "Third Message")
+![server](img2/1.png "Server")
+![clent](img2/2.png "Client Started")
+![client](img2/3.png "First Message")
+![client](img2/4.png "Second Message")
+![client](img2/5.png "Third Message")
 
 
 ## Test
